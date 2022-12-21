@@ -23,6 +23,7 @@
 #endif
 
 #include <iostream>
+#include <sstream>
 
 // Warning suppression for Dune includes.
 #include <opm/grid/utility/platform_dependent/disable_warnings.h>
@@ -68,9 +69,11 @@ void condWriteDoubleField(std::vector<double>& fieldvector,
         fieldvector.resize(global_cell.size());
         int num_global_cells = dims[0]*dims[1]*dims[2];
         if (int(eclVector.size()) != num_global_cells) {
-            OPM_THROW(std::runtime_error, fieldname << " field must have the same size as the "
+            std::ostringstream str;
+            str << fieldname << " field must have the same size as the "
                   "logical cartesian size of the grid: "
-                  << eclVector.size() << " != " << num_global_cells);
+                  << eclVector.size() << " != " << num_global_cells;
+            OPM_THROW(std::runtime_error, str.str());
         }
 
         for (size_t i = 0; i < global_cell.size(); ++i) {
@@ -95,9 +98,11 @@ void condWriteIntegerField(std::vector<double>& fieldvector,
         fieldvector.resize(global_cell.size());
         int num_global_cells = dims[0]*dims[1]*dims[2];
         if (int(eclVector.size()) != num_global_cells) {
-            OPM_THROW(std::runtime_error, fieldname << " field must have the same size as the "
+            std::ostringstream str;
+            str << fieldname << " field must have the same size as the "
                   "logical cartesian size of the grid: "
-                  << eclVector.size() << " != " << num_global_cells);
+                  << eclVector.size() << " != " << num_global_cells;
+            OPM_THROW(std::runtime_error, str.str());
         }
 
         for (size_t i = 0; i < global_cell.size(); ++i) {
