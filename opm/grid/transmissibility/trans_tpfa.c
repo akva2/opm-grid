@@ -51,7 +51,7 @@ tpfa_htrans_compute(struct UnstructuredGrid *G, const double *perm, double *htra
             n  = G->face_normals   + (f * d);
             fc = G->face_centroids + (f * d);
 
-            dgemv_("No Transpose", &nrows, &ncols,
+            dgemv("No Transpose", &nrows, &ncols,
                    &a1, K, &ldA, n, &incx, &a2, &Kn[0], &incy);
 
             htrans[i] = denom = 0.0;

@@ -17,7 +17,7 @@
 cmake_minimum_required (VERSION 3.23)
 
 # Mandatory call to project
-project(opm-grid C CXX Fortran)
+project(opm-grid C CXX)
 
 # project information is in dune.module. Read this file and set variables.
 # we cannot generate dune.module since it is read by dunecontrol before
@@ -63,12 +63,19 @@ macro(opm-grid_prereqs_hook)
 endmacro()
 
 macro(opm-grid_language_hook)
-  include(FortranCInterface)
-  fortrancinterface_header(${PROJECT_BINARY_DIR}/FCMacros.h MACRO_NAMESPACE FC_)
+  #include(CheckCBlas)
+  if(NOT CBLAS_OK)
+    enable_language(Fortran)
+    include(FortranCInterface)
+    fortrancinterface_header(${PROJECT_BINARY_DIR}/FCMacros.h MACRO_NAMESPACE FC_)
+  endif()
 endmacro()
 
 macro(opm-grid_config_hook)
   opm_need_version_of ("dune-grid")
+  if(CBLAS_OK)
+    target_compile_definitions(opmgrid PRIVATE USE_CBLAS=1)
+  endif()
 endmacro()
 
 macro(opm-grid_targets_hook)

@@ -134,7 +134,7 @@ namespace Opm
                 MAT_SIZE_T info = 0;
                 orig_N = N;
                 orig_f = f;
-                dgesv_(&n, &nrhs, &N[0], &lda, &piv[0], &f[0], &ldb, &info);
+                dgesv(&n, &nrhs, &N[0], &lda, &piv[0], &f[0], &ldb, &info);
                 if (info != 0) {
                     // Print the local matrix and rhs.
                     std::cerr << "Failed solving single-cell system Nv = f in cell " << cell
